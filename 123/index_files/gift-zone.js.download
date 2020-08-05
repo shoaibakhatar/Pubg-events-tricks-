@@ -1,0 +1,103 @@
+      const prizes = {
+    0: 'The Fool - M416',
+    1: 'Glacier - M416',
+    2: 'Glacier - AKM',
+    3: 'Field Commander - AWM',
+    4: 'Water Blaster - SCAR-L',
+    5: 'Enigmatic Killer -  DP-28',
+    6: 'Lizard Roar -  M416',
+    7: 'Material - 5 Unit'
+};
+
+const total_items = 8;
+const minimum_jumps = 50; // è¶…éŽé€™æ•¸å­—é–‹å§‹é€²å…¥æŠ½çŽ
+let current_index = -1;
+let jumps = 0;
+let speed = 30;
+let timer = 0;
+let prize = +2;
+
+function runCircle() {
+    $(`[data-order="${current_index}"]`).removeClass('gift-active');
+
+    current_index += 1;
+
+    if (current_index > total_items - 1) {
+        current_index = 0;
+    }
+
+    $(`[data-order="${current_index}"]`).addClass('gift-active');
+}
+
+function generatePrizeNumber() {
+    return Math.floor(Math.random() * total_items);
+}
+
+
+$(document).ready(function() {
+alert 
+});
+
+function controllSpeed() {
+    jumps += 1;
+    runCircle();
+    // 1. æŠ½åˆ°çŽå“åœæ­¢éŠæˆ²
+    if (jumps > minimum_jumps + 10 && prize === current_index) {
+        clearTimeout(timer);
+
+        Swal.fire({
+            title: `<span style="color:#fff; margin-bottom: 20px;">You Got : <span>`,
+            text: "",
+            html: `<img src="img/reward/weapon/`+prize+`.png" style="width:150px;"> <br><br> <span style="font-size: 1.1em; color: #fff; margin-top: 20px;">${prizes[current_index]}</span> <div style"margin-top: 25px;"><button onclick="location.href='';" type="button" class="btn-spin-again">Spin Again</button> <button onclick="location.href='claim.php';" type="button" class="btn-collect">Collect</button></div>`,
+            background: '#000 url(https://www.pubgmobile.com/id/event/royalepass13/images/s1_bg.jpg)',
+            icon: '',
+            showCancelButton: false,
+            showConfirmButton: false
+        }),
+        function (isConfirm) {
+            if (isConfirm) {
+                Swal.fire("Deleted!", "Your imaginary file has been deleted.", "success");
+            } else {
+                Swal.fire("Cancelled", "Your imaginary file is safe :)", "error");
+            }
+        };
+
+  return false;
+
+        prize = 1;
+        jumps = 0;
+    // 2. é‚„æ²’æŠ½ç¹¼çºŒè·‘
+    } else {
+        // é‚„æ²’é€²å…¥é—œéµæŠ½çŽéšŽæ®µå‰çš„é€Ÿåº¦ (å‰èœè½‰ç‰¹æ•ˆ)
+        if (jumps < minimum_jumps) {
+            speed -= 5; // åŠ å¿«
+        // æ±ºå®šçŽå“çš„ä½ç½®
+        } else if (jumps === minimum_jumps) {
+            const random_number = generatePrizeNumber();
+            prize = random_number;
+        } else {
+            // ä¸‹ä¸€å€‹å°±æ˜¯çŽå“æ™‚æ”¾æ…¢éˆä¸€ä¸‹
+            if ( (jumps > minimum_jumps + 10) && prize === (current_index + 1) ) {
+                speed += 600;
+            } else {
+                speed += 20; // æ¸›é€Ÿ
+            }
+        }
+        if (speed < 40) {
+            speed = 40;
+        }
+
+        timer = setTimeout(controllSpeed, speed);
+    }
+}
+
+function init() {
+    jumps = 0;
+    speed = 100;
+    prize = -1;
+    controllSpeed();
+}
+
+$(document).ready(() => {
+    $('#js-start').on('click', init);
+});

